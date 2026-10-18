@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#102d27">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
+<title>Meu Dinheiro</title>
+<style>
+:root{--green:#102d27;--green2:#20443b;--lime:#d4f36a;--bg:#f4f6f2;--card:#fff;--text:#17231e;--muted:#65736b;--red:#b94b3b;--line:#e2e8e1}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px system-ui,-apple-system,Segoe UI,Roboto,sans-serif}button,input,select{font:inherit}button{cursor:pointer;border:0;border-radius:12px;padding:12px 14px;font-weight:650}button:focus,input:focus,select:focus{outline:3px solid #b9d88e;outline-offset:1px}.app{max-width:760px;margin:auto;min-height:100dvh;padding-bottom:28px}.hero{background:var(--green);color:white;padding:22px 18px 20px;border-radius:0 0 24px 24px}.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:20px}.logo{background:var(--lime);color:var(--green);border-radius:12px;width:42px;height:42px;display:grid;place-items:center;font-size:23px}.sub{color:#c5d8ce;font-size:13px;margin-top:2px}.balance{background:var(--green2);border-radius:18px;padding:17px;margin-top:20px}.label{font-size:13px;color:#d0e3d8}.big{font-size:31px;font-weight:800;letter-spacing:-.6px;margin:3px 0 16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:12px}.statlabel{font-size:12px;color:#d0e3d8}.statval{font-weight:750;font-size:17px;margin-top:3px}.positive{color:#31865b}.negative{color:#c56b56}.content{padding:16px}.tabs{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:#e8ede6;padding:5px;border-radius:15px;margin-bottom:18px}.tab{background:transparent;color:#526158;padding:10px 3px;font-size:12px}.tab.active{background:white;color:var(--green);box-shadow:0 1px 5px #00000012}.panel{display:none}.panel.active{display:block}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:13px;box-shadow:0 2px 8px #102d2706}.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px}.title{font-weight:800;font-size:18px;margin:0 0 13px}.muted{color:var(--muted);font-size:13px}.field{display:block;margin:12px 0}.field span{display:block;font-size:13px;font-weight:650;margin-bottom:6px}.field input,.field select,.search{width:100%;padding:12px;border:1px solid #d8e0d7;border-radius:11px;background:#fff;color:var(--text)}.types{display:grid;grid-template-columns:1fr 1fr;gap:8px}.typebtn{background:#edf1ec;color:#425148}.typebtn.active{background:var(--green);color:#fff}.primary{background:var(--green);color:#fff;width:100%;margin-top:6px}.secondary{background:#e9f0e4;color:var(--green)}.danger{background:#fff0ed;color:var(--red);padding:8px 10px;font-size:12px}.item{display:flex;gap:10px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border-bottom:0}.bubble{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;background:#edf2e9;border-radius:12px;font-size:18px}.itemmain{flex:1;min-width:0}.itemname{font-weight:700;overflow-wrap:anywhere}.amount{font-weight:750;white-space:nowrap}.empty{text-align:center;padding:22px 10px;color:var(--muted)}.bar{height:9px;background:#e6ebe4;border-radius:20px;overflow:hidden;margin:10px 0}.barfill{height:100%;background:#83b85d;width:0}.smallbtn{padding:7px 10px;font-size:12px;background:#edf1ec;color:var(--green)}.billrow{padding:12px 0;border-bottom:1px solid var(--line)}.billrow:last-child{border:0}.check{display:flex;align-items:center;gap:8px}.check input{width:18px;height:18px}.notice{font-size:12px;color:var(--muted);line-height:1.45}.monthnav{display:flex;gap:8px;align-items:center}.monthnav input{flex:1;padding:9px;border:1px solid var(--line);border-radius:10px}.footer{text-align:center;color:#758078;font-size:11px;padding:8px 20px 20px}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="hero">
+  <div class="brand"><div class="logo">R$</div><div>Meu Dinheiro<div class="sub">Seu controle financeiro pessoal</div></div></div>
+  <div class="balance">
+    <div class="label">Saldo das movimentações registradas</div>
+    <div class="big" id="balance">R$ 0,00</div>
+    <div class="stats"><div><div class="statlabel">↙ Entradas</div><div class="statval" id="income">R$ 0,00</div></div><div><div class="statlabel">↗ Saídas</div><div class="statval" id="expenses">R$ 0,00</div></div></div>
+  </div>
+</header>
+<main class="content">
+<nav class="tabs" aria-label="Navegação">
+<button class="tab active" data-tab="home">Início</button><button class="tab" data-tab="add">Lançar</button><button class="tab" data-tab="bills">Contas</button><button class="tab" data-tab="reports">Resumo</button>
+</nav>
+<section class="panel active" id="home">
+  <div class="card">
+    <div class="hrow"><h2 class="title" style="margin:0">Meta mensal de gastos</h2><span>🎯</span></div>
+    <label class="field"><span>Limite de despesas (R$)</span><input id="budget" inputmode="decimal" placeholder="Ex.: 2000,00"></label>
+    <div class="hrow"><span class="muted" id="budgetLabel">Defina seu limite</span><strong id="budgetPercent">—</strong></div>
+    <div class="bar"><div class="barfill" id="budgetBar"></div></div>
+  </div>
+  <div class="card"><div class="hrow"><h2 class="title" style="margin:0">Movimentações recentes</h2><button class="smallbtn" data-goto="add">+ Novo</button></div><div id="recent"></div></div>
+  <div class="card"><h2 class="title">Seus dados e cópias de segurança</h2><p class="notice">Os dados ficam guardados neste navegador do aparelho. Exporte uma cópia de segurança regularmente, especialmente antes de limpar os dados do navegador ou trocar de celular.</p><div class="hrow" style="flex-wrap:wrap"><button class="secondary" id="exportBtn">Exportar backup</button><button class="secondary" id="importBtn">Importar backup</button><input class="hidden" id="importFile" type="file" accept="application/json"></div></div>
+</section>
+<section class="panel" id="add">
+  <div class="card">
+    <h2 class="title">Nova movimentação</h2>
+    <div class="types"><button class="typebtn active" data-kind="Despesa">− Despesa</button><button class="typebtn" data-kind="Receita">+ Receita</button></div>
+    <form id="transactionForm">
+      <label class="field"><span>Descrição</span><input id="description" required maxlength="90" placeholder="Ex.: Mercado, salário, gasolina"></label>
+      <label class="field"><span>Valor (R$)</span><input id="amount" required inputmode="decimal" placeholder="0,00"></label>
+      <label class="field"><span>Categoria</span><select id="category"><option>Alimentação</option><option>Moradia</option><option>Transporte</option><option>Saúde</option><option>Lazer</option><option>Salário</option><option>Renda extra</option><option>Contas e serviços</option><option>Compras</option><option>Educação</option><option>Dívidas</option><option>Outros</option></select></label>
+      <label class="field"><span>Data</span><input id="date" type="date" required></label>
+      <button class="primary" type="submit">Salvar movimentação</button>
+    </form>
+  </div>
+</section>
+<section class="panel" id="bills">
+  <div class="card">
+    <h2 class="title">Contas a pagar</h2>
+    <form id="billForm">
+      <label class="field"><span>Nome da conta</span><input id="billName" required maxlength="80" placeholder="Ex.: Conta de luz"></label>
+      <label class="field"><span>Valor (R$)</span><input id="billAmount" required inputmode="decimal" placeholder="0,00"></label>
+      <label class="field"><span>Vencimento</span><input id="billDue" type="date"></label>
+      <button class="primary" type="submit">Adicionar conta</button>
+    </form>
+  </div>
+  <div class="card"><div class="hrow"><h2 class="title" style="margin:0">Lista de contas</h2><strong id="pendingTotal">R$ 0,00</strong></div><div id="billList"></div></div>
+</section>
+<section class="panel" id="reports">
+  <div class="card">
+    <h2 class="title">Resumo mensal</h2>
+    <label class="field"><span>Escolha o mês</span><input id="reportMonth" type="month"></label>
+    <div class="stats" style="margin:14px 0"><div><div class="muted">Receitas</div><div class="statval positive" id="monthIncome">R$ 0,00</div></div><div><div class="muted">Despesas</div><div class="statval negative" id="monthExpenses">R$ 0,00</div></div></div>
+    <div class="hrow"><span>Resultado do mês</span><strong id="monthResult">R$ 0,00</strong></div>
+  </div>
+  <div class="card"><h2 class="title">Despesas por categoria</h2><div id="categoryReport"></div></div>
+  <div class="card"><h2 class="title">Extrato</h2><input class="search" id="search" placeholder="Buscar descrição ou categoria"><div id="allTransactions"></div></div>
+  <div class="card"><h2 class="title">Gerenciar dados</h2><p class="notice">Se apagar os dados, não será possível recuperá-los sem um backup. Exporte primeiro, se necessário.</p><button class="danger" id="clearBtn">Apagar todos os lançamentos e contas</button></div>
+</section>
+</main>
+<div class="footer">MEU DINHEIRO · versão 1.0 · Dados armazenados neste aparelho</div>
+</div>
+<script>
+if ("serviceWorker" in navigator && location.protocol.startsWith("http")) { window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(() => {})); }
+(function(){
+const $=id=>document.getElementById(id);
+const money=n=>Number(n||0).toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+const today=new Date(); const localDate=d=>`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+const monthNow=localDate(today).slice(0,7);
+let state={transactions:[],bills:[],budget:'2000'};
+let kind='Despesa';
+try{const saved=localStorage.getItem('meuDinheiroV1');if(saved){const parsed=JSON.parse(saved);state={...state,...parsed};}}catch(e){}
+function save(){try{localStorage.setItem('meuDinheiroV1',JSON.stringify(state));}catch(e){alert('Não foi possível salvar no navegador. Exporte um backup e verifique o espaço disponível.');}}
+function parseMoney(v){if(typeof v==='number')return v;let s=String(v||'').trim().replace(/\s/g,'').replace(/^R\$/,'');if(s.includes(','))s=s.replace(/\./g,'').replace(',','.');const n=Number(s);return Number.isFinite(n)?n:NaN}
+function sum(list,kind){return list.filter(t=>t.kind===kind).reduce((s,t)=>s+Number(t.amount),0)}
+function safe(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function dateBR(s){if(!s)return 'Sem data';const [y,m,d]=s.split('-');return `${d}/${m}/${y}`}
+function switchTab(tab){document.querySelectorAll('.panel').forEach(p=>p.classList.toggle('active',p.id===tab));document.querySelectorAll('.tab').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));window.scrollTo({top:0,behavior:'smooth'});render()}
+document.querySelectorAll('.tab').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.tab)));
+document.querySelectorAll('[data-goto]').forEach(b=>b.addEventListener('click',()=>switchTab(b.dataset.goto)));
+document.querySelectorAll('.typebtn').forEach(b=>b.addEventListener('click',()=>{kind=b.dataset.kind;document.querySelectorAll('.typebtn').forEach(x=>x.classList.toggle('active',x===b));if(kind==='Receita')$('category').value='Salário';else if($('category').value==='Salário'||$('category').value==='Renda extra')$('category').value='Alimentação'}));
+$('date').value=localDate(today);$('reportMonth').value=monthNow;$('budget').value=state.budget||'2000';
+$('budget').addEventListener('change',()=>{state.budget=$('budget').value;save();render()});
+$('transactionForm').addEventListener('submit',e=>{e.preventDefault();const amount=parseMoney($('amount').value);if(!Number.isFinite(amount)||amount<=0){alert('Digite um valor válido maior que zero.');return}state.transactions.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),kind,description:$('description').value.trim(),amount,category:$('category').value,date:$('date').value||localDate(today),created:Date.now()});save();$('description').value='';$('amount').value='';$('date').value=localDate(today);render();switchTab('home')});
+$('billForm').addEventListener('submit',e=>{e.preventDefault();const amount=parseMoney($('billAmount').value);if(!Number.isFinite(amount)||amount<=0){alert('Digite um valor válido maior que zero.');return}state.bills.push({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),name:$('billName').value.trim(),amount,due:$('billDue').value,paid:false});save();$('billName').value='';$('billAmount').value='';$('billDue').value='';render()});
+$('reportMonth').addEventListener('change',render);$('search').addEventListener('input',render);
+function deleteTransaction(id){if(confirm('Excluir esta movimentação?')){state.transactions=state.transactions.filter(t=>t.id!==id);save();render()}}
+function renderTransactions(list,el,limit){const data=limit?list.slice(0,limit):list;if(!data.length){el.innerHTML='<div class="empty">Nenhuma movimentação por aqui ainda.</div>';return}el.innerHTML=data.map(t=>`<div class="item"><div class="bubble">${t.kind==='Receita'?'↙':'↗'}</div><div class="itemmain"><div class="itemname">${safe(t.description)}</div><div class="muted">${safe(t.category)} · ${dateBR(t.date)}</div></div><div style="text-align:right"><div class="amount ${t.kind==='Receita'?'positive':'negative'}">${t.kind==='Receita'?'+':'−'}${money(t.amount)}</div><button class="danger" data-delete="${safe(t.id)}" style="margin-top:5px">Excluir</button></div></div>`).join('');el.querySelectorAll('[data-delete]').forEach(b=>b.addEventListener('click',()=>deleteTransaction(b.dataset.delete)))}
+function renderBills(){const el=$('billList');const pending=state.bills.filter(b=>!b.paid).reduce((s,b)=>s+b.amount,0);$('pendingTotal').textContent=money(pending);if(!state.bills.length){el.innerHTML='<div class="empty">Nenhuma conta cadastrada.</div>';return}el.innerHTML=state.bills.map(b=>`<div class="billrow"><div class="hrow"><label class="check"><input type="checkbox" data-paid="${safe(b.id)}" ${b.paid?'checked':''}><span style="${b.paid?'text-decoration:line-through;':''}font-weight:700">${safe(b.name)}</span></label><strong>${money(b.amount)}</strong></div><div class="hrow" style="margin-top:6px"><span class="muted">${b.due?'Vence em '+dateBR(b.due):'Vencimento não informado'} · ${b.paid?'Paga':'Pendente'}</span><button class="danger" data-bill-delete="${safe(b.id)}">Excluir</button></div></div>`).join('');el.querySelectorAll('[data-paid]').forEach(c=>c.addEventListener('change',()=>{const b=state.bills.find(x=>x.id===c.dataset.paid);if(!b)return;if(c.checked&&!b.paid){if(confirm('Marcar como paga e registrar essa conta como despesa?')){state.transactions.unshift({id:crypto.randomUUID?crypto.randomUUID():String(Date.now()),kind:'Despesa',description:b.name,amount:b.amount,category:'Contas e serviços',date:localDate(today),created:Date.now()});b.paid=true}else c.checked=false}else if(!c.checked)b.paid=false;save();render()}));el.querySelectorAll('[data-bill-delete]').forEach(b=>b.addEventListener('click',()=>{if(confirm('Excluir esta conta?')){state.bills=state.bills.filter(x=>x.id!==b.dataset.billDelete);save();render()}}))}
+function render(){const all=state.transactions;const income=sum(all,'Receita'),expenses=sum(all,'Despesa');$('balance').textContent=money(income-expenses);$('income').textContent=money(income);$('expenses').textContent=money(expenses);
+const budget=parseMoney(state.budget);const pct=Number.isFinite(budget)&&budget>0?expenses/budget*100:0;$('budgetLabel').textContent=Number.isFinite(budget)&&budget>0?`${money(Math.max(0,budget-expenses))} ${expenses>budget?'acima do limite':'restantes'}`:'Defina um limite válido';$('budgetPercent').textContent=Number.isFinite(budget)&&budget>0?Math.round(pct)+'%':'—';$('budgetBar').style.width=Math.min(100,pct)+'%';$('budgetBar').style.background=pct>100?'#b94b3b':'#83b85d';
+renderTransactions([...all].sort((a,b)=>(b.created||0)-(a.created||0)),$('recent'),5);renderBills();
+const m=$('reportMonth').value||monthNow;const monthly=all.filter(t=>(t.date||'').slice(0,7)===m);const mi=sum(monthly,'Receita'),me=sum(monthly,'Despesa');$('monthIncome').textContent=money(mi);$('monthExpenses').textContent=money(me);$('monthResult').textContent=money(mi-me);$('monthResult').className=mi-me<0?'negative':'positive';
+const cats={};monthly.filter(t=>t.kind==='Despesa').forEach(t=>cats[t.category]=(cats[t.category]||0)+Number(t.amount));const pairs=Object.entries(cats).sort((a,b)=>b[1]-a[1]);$('categoryReport').innerHTML=pairs.length?pairs.map(([c,v])=>`<div style="margin:12px 0"><div class="hrow"><span>${safe(c)}</span><strong>${money(v)}</strong></div><div class="bar"><div class="barfill" style="width:${me?Math.min(100,v/me*100):0}%;background:#6e9d63"></div></div></div>`).join(''):'<div class="empty">Sem despesas neste mês.</div>';
+const q=($('search').value||'').toLowerCase();const found=[...all].sort((a,b)=>(b.date||'').localeCompare(a.date||'')).filter(t=>(t.description+' '+t.category+' '+t.kind).toLowerCase().includes(q));renderTransactions(found,$('allTransactions'));
+}
+$('exportBtn').addEventListener('click',()=>{const blob=new Blob([JSON.stringify({app:'Meu Dinheiro',version:1,exportedAt:new Date().toISOString(),...state},null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='backup-meu-dinheiro-'+localDate(today)+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)});
+$('importBtn').addEventListener('click',()=>$('importFile').click());$('importFile').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{const x=JSON.parse(await f.text());if(!Array.isArray(x.transactions)||!Array.isArray(x.bills))throw new Error('Formato');if(!confirm('Importar este backup e substituir os dados atuais? Exporte os dados atuais primeiro se quiser guardá-los.'))return;state={transactions:x.transactions,bills:x.bills,budget:x.budget||'2000'};save();$('budget').value=state.budget;render();alert('Backup importado.')}catch(err){alert('Não foi possível importar. Escolha um backup válido do Meu Dinheiro.')}finally{e.target.value=''}});
+$('clearBtn').addEventListener('click',()=>{if(confirm('Tem certeza? Todos os lançamentos e contas serão apagados deste aparelho.')){state={transactions:[],bills:[],budget:state.budget||'2000'};save();render()}});
+render();
+})();
+</script>
+</body>
+</html>
